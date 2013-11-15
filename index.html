@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="robots" content="noindex" />
+
+  <!-- Define inlined style -->
+  <style>
+    body {
+      margin: 0;
+    }
+    #village {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+  <!-- Load raphael.js -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
+  <!-- Define inlined JavaScript -->
+  <script type="text/javascript">
+    // Only executed our code once the DOM is ready.
+    window.onload = function() {
+      
+      var paper = Raphael('village', '100%', '100%');
+      
+      var map = paper.image("assets/img/93.jpg", 0, 0, 1336, 768);
+      
+      //var clouds = paper.image("assets/img/136.png", 0, 0, '3000', '3000').hide();
+      //animateClouds(clouds);
+      //animateClouds(clouds.clone().transform('t-1507,0'));
+      
+      var c = paper.circle(700, 350, 50);
+    }
+    
+    animateClouds = function(clouds){
+      var cloudsCopy = clouds.clone().show();
+      var cloudsAnimation = Raphael.animation({transform: "t3000,0"}, 20000, function(){
+        this.node.remove();
+        animateClouds(clouds);
+      });
+      cloudsCopy.animate(cloudsAnimation);
+    }
+  </script>
+  
+</head>
+<body>
+  <div id="village"></div>
+</body>
+</html>
