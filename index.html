@@ -8,11 +8,11 @@
   <style>
     body {
       margin: 0;
-      
+      padding: 0;
+      overflow: hidden;
     }
     #village {
-      height: 100%;
-      width: 100%;
+
     }
   </style>
 
@@ -25,17 +25,28 @@
     // Only executed our code once the DOM is ready.
     window.onload = function() {
       var stage = new createjs.Stage("village");
+      stage.canvas.width = 1366;
+      stage.canvas.height = 768;
+      
       var map = new createjs.Bitmap("assets/img/93.jpg");
       stage.addChild(map);
+      
+      var logo = new createjs.Bitmap("http://www.soschildrensvillages.org.uk/logo.png");
+      logo.y = 50;
+      stage.addChild(logo);
+      
+      // Set initial size
+      resize();
 
       // Update the stage on each tick
       createjs.Ticker.addEventListener("tick", stage);
       
-      resize();
+      // Resize the canvas on window resize
+      window.addEventListener("resize", resize);
       
       function resize() { 
-        stage.canvas.width = window.innerWidth;
-        stage.canvas.height = window.innerHeight;       
+        stage.scaleX = window.innerWidth/stage.canvas.width;
+        stage.scaleY = window.innerHeight/stage.canvas.height;       
       }
     }
 
