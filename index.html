@@ -4,7 +4,6 @@
 <head>
   <meta name="robots" content="noindex" />
 
-  <!-- Define inlined style -->
   <style>
     body {
       margin: 0;
@@ -20,7 +19,6 @@
   <!-- Load easel.js -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/EaselJS/0.7.0/easeljs.min.js"></script>
 
-  <!-- Define inlined JavaScript -->
   <script type="text/javascript">
 
     // Only executed our code once the DOM is ready.
@@ -50,7 +48,7 @@
         stage.canvas.height = window.innerHeight;
         
         map.scaleX = window.innerWidth / map.image.width;
-        map.scaleY = window.innerHeight / map.image.height;
+        map.scaleY = map.scaleX;
       }
     }
 
