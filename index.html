@@ -12,7 +12,8 @@
       overflow: hidden;
     }
     #village {
-
+      height: 100%;
+      width: 100%;
     }
   </style>
 
@@ -25,15 +26,15 @@
     // Only executed our code once the DOM is ready.
     window.onload = function() {
       var stage = new createjs.Stage("village");
-      stage.canvas.width = 1366;
-      stage.canvas.height = 768;
       
-      var map = new createjs.Bitmap("assets/img/93.jpg");
+      var map = new createjs.Bitmap("assets/img/map.jpg");
       stage.addChild(map);
       
       var logo = new createjs.Bitmap("http://www.soschildrensvillages.org.uk/logo.png");
       logo.y = 50;
       stage.addChild(logo);
+      
+      //logo.shadow = new createjs.Shadow("#000000", 0, 0, 10);
       
       // Set initial size
       resize();
@@ -45,8 +46,11 @@
       window.addEventListener("resize", resize);
       
       function resize() { 
-        stage.scaleX = window.innerWidth/stage.canvas.width;
-        stage.scaleY = window.innerHeight/stage.canvas.height;       
+        stage.canvas.width = window.innerWidth;
+        stage.canvas.height = window.innerHeight;
+        
+        map.scaleX = window.innerWidth / map.image.width;
+        map.scaleY = window.innerHeight / map.image.height;
       }
     }
 
