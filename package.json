@@ -1,0 +1,24 @@
+{
+  "name": "sosvillage",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "beefy app.coffee 3000 --live -- -t coffeeify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jamiecollinson/sosvillage.git"
+  },
+  "author": "Jamie Collinson",
+  "license": "BSD",
+  "gitHead": "e1cce56cc289110ace78412311cedd8f318315fd",
+  "bugs": {
+    "url": "https://github.com/jamiecollinson/sosvillage/issues"
+  },
+  "devDependencies": {
+    "coffeeify": "~0.6.0",
+    "browserify": "~3.24.11"
+  }
+}
