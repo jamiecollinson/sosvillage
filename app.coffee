@@ -21,6 +21,15 @@ clouds = new PIXI.TilingSprite cloudsTexture, canvas.width, canvas.height
 clouds.alpha = 1
 stage.addChild clouds
 
+graphics = new PIXI.Graphics
+graphics.interactive = true
+graphics.beginFill(0x00FF00)
+graphics.drawRect(0, 0, 300, 200)
+graphics.hitArea = new PIXI.Rectangle(0, 0, 300, 200);
+graphics.mouseover = (mouseData) ->
+  console.log 'mouseover'
+stage.addChild graphics
+
 update = ->
   clouds.tilePosition.x -= 0.32
   renderer.render stage
