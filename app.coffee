@@ -1,26 +1,40 @@
-# create canvas element on page
-# TODO - should we just have it in the html?
+# TODO - create canvas element on page, should we just have it in the html?
 canvas = document.createElement 'canvas'
 document.body.appendChild canvas
 
-canvas.width = 1366/1.5
-canvas.height = 768/1.5
+canvas.width = 1366
+canvas.height = 768
 
 renderer = PIXI.autoDetectRenderer canvas.width, canvas.height, canvas
 
 stage = new PIXI.Stage
 
+# MAP
 mapTexture = PIXI.Texture.fromImage 'assets/img/map.jpg'
 map = new PIXI.Sprite mapTexture
 map.width = canvas.width
 map.height = canvas.height
 stage.addChild map
 
+# MARKERS
+markers = [
+  {x:100, y:100}
+  {x:200, y:200}
+]
+markerTexture = PIXI.Texture.fromImage 'assets/img/sos-marker-large.png'
+for marker in markers
+  marker.marker = new PIXI.Sprite markerTexture
+  marker.marker.position.x = marker.x
+  marker.marker.position.y = marker.y
+  map.addChild marker.marker
+
+# CLOUDS
 cloudsTexture = PIXI.Texture.fromImage 'assets/img/tileable-cloud-patterns-2.png'
 clouds = new PIXI.TilingSprite cloudsTexture, canvas.width, canvas.height
 clouds.alpha = 1
 stage.addChild clouds
 
+###
 graphics = new PIXI.Graphics
 graphics.interactive = true
 graphics.beginFill(0x00FF00)
@@ -29,6 +43,7 @@ graphics.hitArea = new PIXI.Rectangle(0, 0, 300, 200);
 graphics.mouseover = (mouseData) ->
   console.log 'mouseover'
 stage.addChild graphics
+###
 
 update = ->
   clouds.tilePosition.x -= 0.32
