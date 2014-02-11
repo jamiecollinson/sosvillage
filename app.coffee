@@ -24,6 +24,18 @@ mainState.create = () ->
     {name: 'Youth Home', x: 710, y: 390}
   ]
   @markers = []
+  for a in @markerData
+    marker = game.add.sprite(a.x, a.y-300, 'marker')
+    game.add.tween(marker).to( { y: a.y }, 1000, Phaser.Easing.Bounce.Out, true, Math.random()*100 )
+    marker.name = a.name
+    marker.anchor = x:0.5, y:1
+    marker.inputEnabled = true
+    marker.input.useHandCursor = true
+    marker.events.onInputDown.add(markerClick, @)
+    @markers.push(marker)
   
 mainState.update = () ->
   @clouds.tilePosition.x -= 0.3
+  
+markerClick = (marker) ->
+  alert marker.name
