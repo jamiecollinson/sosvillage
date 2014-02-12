@@ -9,11 +9,10 @@ mainState.preload = () ->
   game.load.image('marker', 'assets/img/sos-marker-large.png')
 
 mainState.create = () ->
-  # MAP
   @map = game.add.sprite(0, 0, 'map')
-  # CLOUDS
+
   @clouds = game.add.tileSprite(0, 0, 1366, 768, 'clouds')
-  # MARKERS
+
   @markerData = [
     {name: 'Gate', x: 520, y: 600}
     {name: 'Sports field', x: 700, y: 275}
@@ -23,6 +22,7 @@ mainState.create = () ->
     {name: 'SOS Home', x: 610, y: 450}
     {name: 'Youth Home', x: 710, y: 390}
   ]
+
   @markers = []
   for a in @markerData
     marker = game.add.sprite(a.x, a.y-300, 'marker')
@@ -32,10 +32,13 @@ mainState.create = () ->
     marker.inputEnabled = true
     marker.input.useHandCursor = true
     marker.events.onInputDown.add(markerClick, @)
+    marker.events.onInputOver.add(markerOver, marker)
     @markers.push(marker)
   
 mainState.update = () ->
-  @clouds.tilePosition.x -= 0.3
+  @clouds.tilePosition.x -= 1
   
 markerClick = (marker) ->
   alert marker.name
+markerOver = (marker) ->
+  console.log @
