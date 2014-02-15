@@ -17,7 +17,8 @@ markerData = [
 assets = {
   mapImg: 'assets/img/map.jpg'
   cloudImg: 'assets/img/tileable-cloud-patterns-2.png'
-  markerImg: 'assets/img/sos-marker-large.png'  
+  markerImg: 'assets/img/sos-marker-large.png'
+  birdImg: 'http://upload.wikimedia.org/wikipedia/en/1/1c/Up_Arrow_Icon.png'
 }
 assetArray = (value for key, value of assets)
 
@@ -26,16 +27,10 @@ map = null
 clouds = null
 markers = null
 flock = new Boids
-  boids: 50              # The amount of boids to use
-  speedLimit: 5          # Max steps to take per tick
-  accelerationLimit: 1   # Max acceleration per tick
-  separationDistance: 60 # Radius at which boids avoid others
-  alignmentDistance: 180 # Radius at which boids align with others
-  choesionDistance: 180  # Radius at which boids approach others
-  separationForce: 0.15  # Speed to avoid at
-  alignmentForce: 0.25   # Speed to align with other boids
-  choesionForce: 0.1     # Speed to move towards other boids
-  attractors: [ [700, 350, 1000, 1] ]
+  boids: 50                 # The amount of boids to use
+  speedLimit: 0.5           # Max steps to take per tick
+  accelerationLimit: 0.01   # Max acceleration per tick
+  attractors: [ [1366/2, 768/2, Infinity, 0.01] ]
 
 loader = new PIXI.AssetLoader assetArray
 loader.addEventListener 'onComplete', () -> do setup
@@ -49,9 +44,10 @@ setup = () ->
   
   for boid in flock.boids
     # boid is an array with 6 elements
-    boidSprite = PIXI.Sprite.fromImage assets.markerImg
-    [ boidSprite.width, boidSprite.height ] = [ 16, 16 ]
-    [ boidSprite.x, boidSprite.y ] = [ boid[0], boid[1] ]
+    boid[0] += 1366/2 - 500 + Math.random()*1000
+    boid[1] += 768/2 - 500 + Math.random()*1000
+    boidSprite = PIXI.Sprite.fromImage assets.birdImg
+    [ boidSprite.width, boidSprite.height ] = [ 12, 12 ]
     boid.push boidSprite
     stage.addChild boidSprite
   
@@ -71,8 +67,17 @@ setup = () ->
     marker.name = element.name
     marker.interactive = true
     marker.buttonMode = true
+    
+    text = new PIXI.Text marker.name
+    text.setStyle
+      font: '24px Helvetica'
+      fill: '#FFFFFF'
+    text.anchor.x = 0.5
+    marker.addChild text
+    
     marker.click = (e) ->
       alert e.target.name
+      
     markers.push marker
     stage.addChild marker
 
@@ -80,13 +85,15 @@ setup = () ->
   
 update = ->
   clouds.tilePosition.x -= 0.32
-  renderer.render stage
   do TWEEN.update
+  [ flock.attractors[0][0], flock.attractors[0][1] ] = [ stage.getMousePosition().x, stage.getMousePosition().y ]
   do flock.tick
   for boid in flock.boids
     boidSprite = boid[6]
     boidSprite.x = boid[0]
-    boidSprite.y = boid[1]    
+    boidSprite.y = boid[1]
+    boidSprite.rotation = Math.PI/2 + Math.atan2( boid[3], boid[2] )
+  renderer.render stage
   requestAnimFrame update
   
 markerIntroTween = (marker) ->
