@@ -42,6 +42,8 @@ setup = () ->
   map = PIXI.Sprite.fromImage assets.mapImg
   stage.addChild map
   
+  boidsContainer = new PIXI.SpriteBatch
+  stage.addChild boidsContainer
   for boid in flock.boids
     # boid is an array with 6 elements
     boid[0] += 1366/2 - 500 + Math.random()*1000
@@ -49,7 +51,7 @@ setup = () ->
     boidSprite = PIXI.Sprite.fromImage assets.birdImg
     [ boidSprite.width, boidSprite.height ] = [ 12, 12 ]
     boid.push boidSprite
-    stage.addChild boidSprite
+    boidsContainer.addChild boidSprite
   
   cloudsTexture = PIXI.Texture.fromImage assets.cloudImg
   clouds = new PIXI.TilingSprite cloudsTexture, 1366, 768
